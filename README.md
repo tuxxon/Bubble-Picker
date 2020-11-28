@@ -1,13 +1,9 @@
-# Bubble-Picker
+# Bubble-Picker for removing items when clicking or touching.
 
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
-[![](https://jitpack.io/v/igalata/Bubble-Picker.svg)](https://jitpack.io/#igalata/Bubble-Picker)
-
-<a href='https://play.google.com/store/apps/details?id=com.igalata.bubblepickerdemo&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="70" width="180"/></a>
-
-Check this [project on dribbble](https://dribbble.com/shots/3349372-Bubble-Picker-Open-Source-Component)
-
-Read how we did it [on Medium](https://medium.com/@igalata13/how-to-create-a-bubble-selection-animation-on-android-627044da4854#.ajonc010b)
+```
+  I thought Irina Galata doesn't work on this project for more.
+  So, I created this repo for bubble-picker to upgrade.
+```
 
 <img src="shot.gif"/>
 
@@ -26,12 +22,6 @@ allprojects {
 }
 ```
 
-Add the dependency:
-```Groovy
-dependencies {
-	compile 'com.github.igalata:Bubble-Picker:v0.2.4'
-}
-```
 
 ## How to use this library
 
@@ -147,6 +137,11 @@ picker.listener = object : BubblePickerListener {
             override fun onBubbleDeselected(item: PickerItem) {
 
             }
+
+            override fun onBubbleRemoved(item: PickerItem) {
+
+            }
+
 }
 ```
 
@@ -162,6 +157,12 @@ picker.setListener(new BubblePickerListener() {
             public void onBubbleDeselected(@NotNull PickerItem item) {
 
             }
+
+            @Override
+            public void onBubbleRemoved(@NotNull PickerItem item) {
+
+            }
+
 });
 ```
 
@@ -171,30 +172,18 @@ For more usage examples please review the sample app
 
 ## Changelog
 
-### Version: 0.2.4
-
-* Added a possibility to setup the `BubblePicker` using `BubblePickerAdapter`
-
-### Version: 0.2.3
-
-* Fixed black textures issue on some devices
-
-### Version: 0.2.1
-
-* `BubblePicker.centerImmediately` veriable added, so it's possible to place the bubbles 
- in the center of the view immediately
-
-### Version: 0.2
+ -- This branch is for removing items in Bubble-Picker.
 
 * `icon` parameter added to place an image on a bubble along with the title 
 * `iconOnTop` parameter added to control position of the icon on a bubble
 * `textSize` parameter added
 * `BubblePicker.bubbleSize` variable now can be changed from 1 to 100
 
-## Known iOS versions of the animation
+## Reference
+[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
+[![](https://jitpack.io/v/igalata/Bubble-Picker.svg)](https://jitpack.io/#igalata/Bubble-Picker)
 
-* https://github.com/Ronnel/BubblePicker
-* https://github.com/efremidze/Magnetic
+Check this [Original Bubble-Picker](https://github.com/igalata/Bubble-Picker)
 
 ## License
 
