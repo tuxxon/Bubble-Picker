@@ -1,0 +1,2 @@
+include ':app', ':bubblepicker'
+rootProject.name = "BubblePicker"
