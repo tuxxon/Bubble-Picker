@@ -180,8 +180,6 @@ For more usage examples please review the sample app
 * `BubblePicker.bubbleSize` variable now can be changed from 1 to 100
 
 ## Reference
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
-[![](https://jitpack.io/v/igalata/Bubble-Picker.svg)](https://jitpack.io/#igalata/Bubble-Picker)
 
 Check this [Original Bubble-Picker](https://github.com/igalata/Bubble-Picker)
 
