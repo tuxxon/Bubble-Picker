@@ -61,7 +61,13 @@ object Engine {
     fun move() {
         toBeResized.forEach { it.circleBody.resize(resizeStep) }
         world.step(if (centerImmediately) 0.035f else step, 11, 11)
-        bodies.forEach { if (it.deleted) bodies.remove(it) }
+        bodies.forEach {
+            if (it.deleted) {
+                world.destroyBody(it.physicalBody)
+                it.physicalBody.setActive(false)
+                bodies.remove(it)
+            }
+        }
         bodies.forEach { move(it) }
 
         toBeResized.forEach { if (it.circleBody.deleted) toBeResized.remove(it) }

@@ -11,6 +11,6 @@ interface BubblePickerListener {
 
     fun onBubbleDeselected(item: PickerItem)
 
-    fun onBubbleRemoved(item: PickerItem)
+    fun onBubbleRemoved(item: PickerItem, nCount: Int)
 
 }

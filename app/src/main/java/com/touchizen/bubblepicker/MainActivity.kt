@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.igalata.bubblepicker.BubblePickerListener
@@ -17,11 +18,27 @@ class MainActivity : AppCompatActivity() {
     private val boldTypeface by lazy { Typeface.createFromAsset(assets, ROBOTO_BOLD) }
     private val mediumTypeface by lazy { Typeface.createFromAsset(assets, ROBOTO_MEDIUM) }
     private val regularTypeface by lazy { Typeface.createFromAsset(assets, ROBOTO_REGULAR) }
+    private var nextPicker = 0
 
+    val string2DArray: Array<Array<String>> = arrayOf(
+            arrayOf("Argentina","Bolivia","Brazil","Chile","Costa Rica",
+                    "Dominican Republic","Mexico","Nicaragua","Peru","Venezuela",
+                    "Cuba","Ecuador","El Salvador","Haiti","Panama","Paraguay"),
+            arrayOf("apple", "orange", "avocado", "mango", "banana","pear"),
+            arrayOf("_", "!", ":", "?"),
+            arrayOf("1", "2", "3", "4", "5","6","7","8", "10"))
+
+    val handler = Handler {
+        when (it.what) {
+            Companion.EVENT_NEXT_PICKER ->  doNextBubblePicker()
+        }
+        true
+    }
     companion object {
         private const val ROBOTO_BOLD = "roboto_bold.ttf"
         private const val ROBOTO_MEDIUM = "roboto_medium.ttf"
         private const val ROBOTO_REGULAR = "roboto_regular.ttf"
+        private const val EVENT_NEXT_PICKER = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,19 +53,31 @@ class MainActivity : AppCompatActivity() {
             hintTextView.letterSpacing = 0.05f
         }
 
-        val titles = resources.getStringArray(R.array.countries)
+        setupBubblePicker()
+    }
+
+    private fun doNextBubblePicker() {
+        nextPicker++
+        setupBubblePicker()
+    }
+
+    private fun setupBubblePicker() {
+
+        //val titles = resources.getStringArray(R.array.countries)
         val colors = resources.obtainTypedArray(R.array.colors)
         val images = resources.obtainTypedArray(R.array.images)
 
         picker.adapter = object : BubblePickerAdapter {
 
-            override val totalCount = titles.size
+            override val totalCount = string2DArray[nextPicker].size
 
             override fun getItem(position: Int): PickerItem {
                 return PickerItem().apply {
-                    title = titles[position]
+
+                    title = string2DArray[nextPicker][position]
+
                     gradient = BubbleGradient(colors.getColor((position * 2) % 8, 0),
-                        colors.getColor((position * 2) % 8 + 1, 0), BubbleGradient.VERTICAL)
+                            colors.getColor((position * 2) % 8 + 1, 0), BubbleGradient.VERTICAL)
                     typeface = mediumTypeface
                     textColor = ContextCompat.getColor(this@MainActivity, android.R.color.white)
                     backgroundImage = ContextCompat.getDrawable(this@MainActivity, images.getResourceId(position, 0))
@@ -69,8 +98,11 @@ class MainActivity : AppCompatActivity() {
                 toast("${item.title} deselected")
             }
 
-            override fun onBubbleRemoved(item: PickerItem) {
+            override fun onBubbleRemoved(item: PickerItem, nCount: Int) {
                 toast("${item.title} removed")
+                if (nCount == 0) {
+                    handler.obtainMessage(EVENT_NEXT_PICKER).sendToTarget()
+                }
             }
         }
     }

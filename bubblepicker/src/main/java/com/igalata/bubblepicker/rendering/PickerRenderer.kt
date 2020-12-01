@@ -181,8 +181,8 @@ class PickerRenderer(val glView: View) : GLSurfaceView.Renderer {
         if (Engine.remove(this)) {
             listener?.let {
                 if (circleBody.deleted) {
-                    it.onBubbleRemoved(pickerItem)
                     removeFrame(pickerItem)
+                    it.onBubbleRemoved(pickerItem, circles.size)
                 }
             }
         }
