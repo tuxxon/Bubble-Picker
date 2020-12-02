@@ -24,9 +24,16 @@ class MainActivity : AppCompatActivity() {
             arrayOf("Argentina","Bolivia","Brazil","Chile","Costa Rica",
                     "Dominican Republic","Mexico","Nicaragua","Peru","Venezuela",
                     "Cuba","Ecuador","El Salvador","Haiti","Panama","Paraguay"),
+            arrayOf("Argentina","Bolivia","Brazil","Chile","Costa Rica",
+                    "Dominican Republic","Mexico","Nicaragua","Peru","Venezuela",
+                    "Cuba","Ecuador","El Salvador","Haiti","Panama","Paraguay","Korea"),
+            arrayOf("Argentina","Bolivia","Brazil","Chile","Costa Rica",
+                    "Dominican Republic","Mexico","Nicaragua","Peru","Venezuela",
+                    "Cuba","Ecuador","El Salvador","Haiti","Panama","Paraguay","Cananda","Korea","Japan"),
             arrayOf("apple", "orange", "avocado", "mango", "banana","pear"),
             arrayOf("_", "!", ":", "?"),
-            arrayOf("1", "2", "3", "4", "5","6","7","8", "10"))
+            arrayOf("1", "2", "3", "4", "5","6","7","8", "10"),
+    )
 
     val handler = Handler {
         when (it.what) {
