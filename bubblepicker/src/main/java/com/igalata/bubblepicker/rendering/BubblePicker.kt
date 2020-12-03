@@ -34,7 +34,7 @@ class BubblePicker : GLSurfaceView {
         set(value) {
             field = value
             if (value != null) {
-                renderer.items = ArrayList((0..value.totalCount - 1)
+                renderer.items = ArrayList((0 until value.totalCount)
                         .map { value.getItem(it) }.toList())
             }
         }
@@ -61,11 +61,12 @@ class BubblePicker : GLSurfaceView {
             renderer.centerImmediately = value
         }
 
-    private val renderer = PickerRenderer(this)
+    private var renderer = PickerRenderer(this)
     private var startX = 0f
     private var startY = 0f
     private var previousX = 0f
     private var previousY = 0f
+    private var atts:AttributeSet? = null
 
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
@@ -75,6 +76,7 @@ class BubblePicker : GLSurfaceView {
         holder.setFormat(PixelFormat.RGBA_8888)
         setRenderer(renderer)
         renderMode = RENDERMODE_CONTINUOUSLY
+        atts = attrs
         attrs?.let { retrieveAttrubutes(attrs) }
     }
 
@@ -124,7 +126,6 @@ class BubblePicker : GLSurfaceView {
         if (array.hasValue(R.styleable.BubblePicker_backgroundColor)) {
             background = array.getColor(R.styleable.BubblePicker_backgroundColor, -1)
         }
-
         array.recycle()
     }
 
