@@ -72,15 +72,12 @@ class MainActivity : AppCompatActivity() {
         nextPicker++
         Log.i("TAG", "doNextBubblePicker: Next bubble running now....")
         if (nextPicker < string2DArray.size) {
-            runOnUiThread {
-                setupBubblePicker()
-                picker.onPause()
-                picker.onResume()
-                // this trick is told by the real developer of the library so i just went through and saw it.
+            setupBubblePicker()
+            picker.onPause()
+            picker.onResume()
+            // this trick is told by the real developer of the library so i just went through and saw it.
 //                 after this i have done another bug fix because it was crashing if string2DArray[nextPicker].size
 //                is greater than the previous array. hope you understand
-
-            }
         } else{
             toast("Finished")
         }
