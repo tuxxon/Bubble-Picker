@@ -76,9 +76,6 @@ class PickerRenderer(val glView: View) : GLSurfaceView.Renderer {
         drawFrame()
     }
 
-    fun set() {
-    }
-
     fun initialize() {
         Log.i("TAG", "initialize: --------------------------initialize")
         clear()
@@ -87,10 +84,8 @@ class PickerRenderer(val glView: View) : GLSurfaceView.Renderer {
             circles.add(Item(items[index], body))
         }
         items.forEach { if (it.isSelected) Engine.resize(circles.first { circle -> circle.pickerItem == it }) }
-        if (textureIds == null) textureIds = IntArray(circles.size * 2)
-        else {
-            textureIds = IntArray(circles.size * 2)
-        }
+        textureIds = IntArray(circles.size * 2)
+
         initializeArrays()
     }
 

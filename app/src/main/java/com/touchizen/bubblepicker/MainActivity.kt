@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupBubblePicker() {
         //val titles = resources.getStringArray(R.array.countries)
         val colors = resources.obtainTypedArray(R.array.colors)
-        val images = resources.obtainTypedArray(R.array.images)
+        //val images = resources.obtainTypedArray(R.array.images)
 
         picker.adapter = object : BubblePickerAdapter {
 
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         colors.recycle()
-        images.recycle()
+        //images.recycle()
         picker.bubbleSize = 20
         picker.listener = object : BubblePickerListener {
             override fun onBubbleSelected(item: PickerItem) {
