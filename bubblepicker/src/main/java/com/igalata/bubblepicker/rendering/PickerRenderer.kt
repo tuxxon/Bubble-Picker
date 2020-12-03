@@ -3,6 +3,7 @@ package com.igalata.bubblepicker.rendering
 import android.opengl.GLES20
 import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
+import android.util.Log
 import android.view.View
 import com.igalata.bubblepicker.*
 import com.igalata.bubblepicker.model.Color
@@ -75,7 +76,11 @@ class PickerRenderer(val glView: View) : GLSurfaceView.Renderer {
         drawFrame()
     }
 
-    private fun initialize() {
+    fun set() {
+    }
+
+    fun initialize() {
+        Log.i("TAG", "initialize: --------------------------initialize")
         clear()
         Engine.centerImmediately = centerImmediately
         Engine.build(items.size, scaleX, scaleY).forEachIndexed { index, body ->
@@ -83,6 +88,9 @@ class PickerRenderer(val glView: View) : GLSurfaceView.Renderer {
         }
         items.forEach { if (it.isSelected) Engine.resize(circles.first { circle -> circle.pickerItem == it }) }
         if (textureIds == null) textureIds = IntArray(circles.size * 2)
+        else {
+            textureIds = IntArray(circles.size * 2)
+        }
         initializeArrays()
     }
 

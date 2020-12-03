@@ -7,6 +7,7 @@ import android.opengl.Matrix
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
+import android.util.Log
 import com.igalata.bubblepicker.model.BubbleGradient
 import com.igalata.bubblepicker.model.PickerItem
 import com.igalata.bubblepicker.physics.CircleBody
@@ -68,7 +69,7 @@ data class Item(val pickerItem: PickerItem, val circleBody: CircleBody) {
     }
 
     private fun createBitmap(isSelected: Boolean): Bitmap {
-        var bitmap = Bitmap.createBitmap(bitmapSize.toInt(), bitmapSize.toInt(), Bitmap.Config.ARGB_4444)
+        var bitmap = Bitmap.createBitmap(bitmapSize.toInt(), bitmapSize.toInt(), Bitmap.Config.ARGB_8888)
         val bitmapConfig: Bitmap.Config = bitmap.config ?: Bitmap.Config.ARGB_8888
         bitmap = bitmap.copy(bitmapConfig, true)
 
@@ -158,6 +159,7 @@ data class Item(val pickerItem: PickerItem, val circleBody: CircleBody) {
     }
 
     private fun bindTexture(textureIds: IntArray, index: Int, withImage: Boolean): Int {
+        Log.e("TAG", "bindTexture: " + textureIds.size +"index "  +index + "image " + withImage)
         glGenTextures(1, textureIds, index)
         createBitmap(withImage).toTexture(textureIds[index])
         return textureIds[index]

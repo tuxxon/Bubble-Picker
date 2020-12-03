@@ -5,6 +5,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.igalata.bubblepicker.BubblePickerListener
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             arrayOf("Argentina","Bolivia","Brazil","Chile","Costa Rica",
                     "Dominican Republic","Mexico","Nicaragua","Peru","Venezuela",
                     "Cuba","Ecuador","El Salvador","Haiti","Panama","Paraguay","Korea"),
+            arrayOf("PAKISTAN","Argentina","Bolivia"),
+            arrayOf("PAKISTAN","Argentina"),
             arrayOf("Argentina","Bolivia","Brazil","Chile","Costa Rica",
                     "Dominican Republic","Mexico","Nicaragua","Peru","Venezuela",
                     "Cuba","Ecuador","El Salvador","Haiti","Panama","Paraguay","Cananda","Korea","Japan"),
@@ -35,9 +39,9 @@ class MainActivity : AppCompatActivity() {
             arrayOf("1", "2", "3", "4", "5","6","7","8", "10"),
     )
 
-    val handler = Handler {
+    val handler = Handler(Looper.getMainLooper()) {
         when (it.what) {
-            Companion.EVENT_NEXT_PICKER ->  doNextBubblePicker()
+            EVENT_NEXT_PICKER ->  doNextBubblePicker()
         }
         true
     }
@@ -51,25 +55,35 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         titleTextView.typeface = mediumTypeface
         subtitleTextView.typeface = boldTypeface
         hintTextView.typeface = regularTypeface
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             subtitleTextView.letterSpacing = 0.06f
             hintTextView.letterSpacing = 0.05f
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                setTurnScreenOn(true)
+            }
         }
-
         setupBubblePicker()
     }
 
     private fun doNextBubblePicker() {
         nextPicker++
-        setupBubblePicker()
+        Log.i("TAG", "doNextBubblePicker: Next bubble running now....")
+        if (nextPicker < string2DArray.size) {
+            setupBubblePicker()
+            picker.onPause()
+            picker.onResume()
+            // this trick is told by the real developer of the library so i just went through and saw it.
+//                 after this i have done another bug fix because it was crashing if string2DArray[nextPicker].size
+//                is greater than the previous array. hope you understand
+        } else{
+            toast("Finished")
+        }
     }
 
     private fun setupBubblePicker() {
-
         //val titles = resources.getStringArray(R.array.countries)
         val colors = resources.obtainTypedArray(R.array.colors)
         val images = resources.obtainTypedArray(R.array.images)
@@ -82,19 +96,19 @@ class MainActivity : AppCompatActivity() {
                 return PickerItem().apply {
 
                     title = string2DArray[nextPicker][position]
-
                     gradient = BubbleGradient(colors.getColor((position * 2) % 8, 0),
                             colors.getColor((position * 2) % 8 + 1, 0), BubbleGradient.VERTICAL)
                     typeface = mediumTypeface
                     textColor = ContextCompat.getColor(this@MainActivity, android.R.color.white)
-                    backgroundImage = ContextCompat.getDrawable(this@MainActivity, images.getResourceId(position, 0))
+                    Log.d("TAG", "getItem: " + position + " total " + string2DArray[nextPicker].size + title)
+                    // if you are changing the size of the array you also need to place its image in the drawable unless
+//                    donot touch this as the array sizes are differnet here.
+//                    backgroundImage = ContextCompat.getDrawable(this@MainActivity, images.getResourceId((position), 0))
                 }
             }
         }
-
         colors.recycle()
         images.recycle()
-
         picker.bubbleSize = 20
         picker.listener = object : BubblePickerListener {
             override fun onBubbleSelected(item: PickerItem) {
@@ -106,8 +120,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onBubbleRemoved(item: PickerItem, nCount: Int) {
-                toast("${item.title} removed")
+//                toast("${item.title} removed")
                 if (nCount == 0) {
+                    Log.d("TAG", "onBubbleRemoved: Show the next one ")
                     handler.obtainMessage(EVENT_NEXT_PICKER).sendToTarget()
                 }
             }
