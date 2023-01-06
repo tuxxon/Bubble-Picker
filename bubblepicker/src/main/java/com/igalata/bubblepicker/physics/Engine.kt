@@ -92,8 +92,16 @@ object Engine {
     }
 
     fun clear() {
-        borders.forEach { world.destroyBody(it.itemBody) }
-        bodies.forEach { world.destroyBody(it.physicalBody) }
+        /**
+         *  The bugs against clear() are resolved
+         *
+         *  Refer to
+         *  https://stackoverflow.com/questions/65137339/when-removing-items-on-bubble-picker-the-following-errors-occur/74960020#74960020
+         *  https://github.com/igalata/Bubble-Picker/issues/881
+         *  https://github.com/igalata/Bubble-Picker/issues/89
+         */
+        borders.forEach { if (world.isLocked) world.destroyBody(it.itemBody) }
+        bodies.forEach { if (world.isLocked) world.destroyBody(it.physicalBody) }
         borders.clear()
         bodies.clear()
     }
